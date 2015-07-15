@@ -9,24 +9,22 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 
-mail_host = "smtp.163.com"
-mail_user = "l-1990-mx@163.com"
-mail_pass = "best.911"
-mail_subject = "Text Email to you by python"
-mail_postfix = "163.com"
-
-
-f = open("mail.txt", 'r')
-messages = f.readlines()
-f.close()
-messages = "".join(messages)
-
 '''
     mailto  # Receiver list email address
     mailcc  # Cc' list email address
     sub     # subject
     cont    # content
 '''
+
+mail_host = "smtp.163.com"                       # your email host
+mail_user = "XXXX@163.com"                       # your email account
+mail_pass = getpass.getpass("Password here:")    # your email password
+mail_subject = "Text Email to you by python"
+mail_postfix = "163.com"
+
+
+
+
 me = "hello" + "<" + mail_user + "@" + mail_postfix + ">"
 
 
@@ -38,7 +36,6 @@ def send_mail(mailto, mailcc, sub, cont):
     msg['From'] = me
     msg['To'] = ';'.join(mailto)
     msg['Cc'] = ';'.join(mailcc)
-
 
     try:
         s = smtplib.SMTP()
@@ -58,20 +55,26 @@ def send_attach(mailto, mailcc, sub, path):
     att["Content-Disposition"] = 'attachment; filename="attachname.png"'
 
     msg.attach(att)
-    msg['subject'] = unicode(sub)  # subjuct must encode by unicode
+    msg['subject'] = unicode(sub)  # Encoded by unicode
     msg['From'] = me
     msg['To'] = ';'.join(mailto)
     msg['Cc'] = ';'.join(mailcc)
 
 
+# the file of messages would be sent out.
+f = open("mail.txt", 'r')
+messages = f.readlines()
+f.close()
+messages = "".join(messages)
 
 
 if __name__ == '__main__':
 
-    mail_to_list = ['l-1990-mx@163.com']
-    mail_cc_list = ['295046974@163.com']
+    mail_to_list = ['yeon_1032@163.com']
+    mail_cc_list = ['black-johnson@163.com']
 
-    path = '/Users/Jeremy-Li/Download/1M.png' # 附件路径
+    path = '/Users/Jeremy-Li/Download/1M.png'
+
     if send_mail(mail_to_list, mail_cc_list, mail_subject, messages):
         print "Mail has been sent!"
     elif send_attach(mail_to_list, mail_cc_list, mail_subject, path):
